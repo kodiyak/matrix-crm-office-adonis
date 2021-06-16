@@ -19,6 +19,7 @@ export class QueryStringBuilder {
   }
 
   public async exec() {
+    if (Object.values(this.qsParams.all()).length <= 0) return
     this.applyWhereIn()
     this.applyWhereOperator(this.qsParams.greaterOrEquals(), '>=')
     this.applyWhereOperator(this.qsParams.greaterThan(), '>')
