@@ -12,6 +12,7 @@ import BankInfo from '../../../Models/BankInfo'
 type ModelsCounters = 'users' | 'clients' | 'docs' | 'personInfos' | 'banks' | 'bankInfos'
 
 interface ModelsCounterReturn {
+  // @ts-ignore
   [key: ModelsCounters]: number
 }
 

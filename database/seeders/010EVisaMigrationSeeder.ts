@@ -84,6 +84,8 @@ export default class EVisaMigrationSeederSeeder extends BaseSeeder {
 
     const conta = StrHelper.digits(userConsulta.conta)
     const isCC = userConsulta.tipo_conta === 'CC'
+
+    // @ts-ignore
     const bankInfo = await BankInfo.create({
       agency: StrHelper.digits(userConsulta.agencia),
       cc: isCC ? conta : undefined,
@@ -92,6 +94,7 @@ export default class EVisaMigrationSeederSeeder extends BaseSeeder {
       personInfoId: personInfo.id,
     })
 
+    // @ts-ignore
     const address = await Address.create({
       cep: StrHelper.digits(userConsulta.cep),
       place: StrHelper.title(userConsulta.endereco),
@@ -105,6 +108,7 @@ export default class EVisaMigrationSeederSeeder extends BaseSeeder {
 
     const client = await Client.create({
       personInfoId: personInfo.id,
+      // @ts-ignore
       ownerId: user.id,
       typeAgreement: 1,
       isActive: true,
@@ -139,6 +143,7 @@ export default class EVisaMigrationSeederSeeder extends BaseSeeder {
             }
           })
 
+        // @ts-ignore
         const file = await FileItem.create({
           path,
           mimeType: 'image/jpg',

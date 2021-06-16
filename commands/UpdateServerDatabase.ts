@@ -1,13 +1,13 @@
 import { BaseCommand } from '@adonisjs/core/build/standalone'
-import Client from '../app/Models/Client'
-import { BaseModel, LucidRow } from '@ioc:Adonis/Lucid/Orm'
-import Bank from '../app/Models/Helper/Bank'
-import PersonInfo from '../app/Models/PersonInfo'
-import Address from '../app/Models/Address'
-import FileItem from '../app/Models/FileItem'
-import FolderItem from '../app/Models/FolderItem'
-import User from '../app/Models/User'
-import BankInfo from '../app/Models/BankInfo'
+// import Client from '../app/Models/Client'
+// import { BaseModel, LucidRow } from '@ioc:Adonis/Lucid/Orm'
+// import Bank from '../app/Models/Helper/Bank'
+// import PersonInfo from '../app/Models/PersonInfo'
+// import Address from '../app/Models/Address'
+// import FileItem from '../app/Models/FileItem'
+// import FolderItem from '../app/Models/FolderItem'
+// import User from '../app/Models/User'
+// import BankInfo from '../app/Models/BankInfo'
 import Database from '@ioc:Adonis/Lucid/Database'
 
 export default class UpdateServerDatabase extends BaseCommand {
@@ -88,22 +88,22 @@ export default class UpdateServerDatabase extends BaseCommand {
     this.logger.info('Hello world!')
   }
 
-  private all<T extends typeof BaseModel>(model: T) {
-    return model.all({
-      connection: 'sqlite',
-    })
-  }
+  // private all<T extends typeof BaseModel>(model: T) {
+  //   return model.all({
+  //     connection: 'sqlite',
+  //   })
+  // }
 
-  private migrate(item: LucidRow, model: typeof BaseModel, additionals = {}) {
-    const { created_at, updated_at, ...data } = item.toJSON()
-    return model.create(
-      {
-        ...data,
-        ...additionals,
-      },
-      {
-        connection: 'server',
-      }
-    )
-  }
+  // private migrate(item: LucidRow, model: typeof BaseModel, additionals = {}) {
+  //   const { created_at, updated_at, ...data } = item.toJSON()
+  //   return model.create(
+  //     {
+  //       ...data,
+  //       ...additionals,
+  //     },
+  //     {
+  //       connection: 'server',
+  //     }
+  //   )
+  // }
 }
