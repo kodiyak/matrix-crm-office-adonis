@@ -34,6 +34,12 @@ export default class User extends BaseModel {
   @column()
   public isActive: boolean
 
+  @column()
+  public role: 'admin' | 'back-office' | 'dev'
+
+  @column()
+  public avatar: string
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
