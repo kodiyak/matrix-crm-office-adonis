@@ -11,4 +11,15 @@ export default class UsersController {
   public async create({ request }: HttpContextContract) {
     return CreateUser.run(request.all() as any)
   }
+
+  public async update(ctx: HttpContextContract) {
+    const { params, request } = ctx
+    const user = await User.findOrFail(params.id)
+
+    user.merge(request.except(['avatar']))
+
+    await user.save()
+
+    return user
+  }
 }

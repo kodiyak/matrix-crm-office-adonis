@@ -25,6 +25,7 @@ Route.get('/api/oauth', 'Api/AuthController.boot')
 
 Route.post('/api/users', 'Api/UsersController.create')
 Route.get('/api/users', 'Api/UsersController.index')
+Route.post('/api/users/:id', 'Api/UsersController.update')
 
 Route.post('/api/personsinfos', 'Api/PersonsInfosController.create')
 
