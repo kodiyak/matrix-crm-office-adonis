@@ -1,29 +1,5 @@
 {
   "commands": {
-    "evisa:bootstrap": {
-      "settings": {
-        "loadApp": true,
-        "stayAlive": false
-      },
-      "commandPath": "./commands/EvisaBootstrap",
-      "commandName": "evisa:bootstrap",
-      "description": "",
-      "args": [],
-      "aliases": [],
-      "flags": []
-    },
-    "update:server_db": {
-      "settings": {
-        "loadApp": true,
-        "stayAlive": false
-      },
-      "commandPath": "./commands/UpdateServerDatabase",
-      "commandName": "update:server_db",
-      "description": "",
-      "args": [],
-      "aliases": [],
-      "flags": []
-    },
     "dump:rcfile": {
       "settings": {},
       "commandPath": "@adonisjs/core/build/commands/DumpRc",
