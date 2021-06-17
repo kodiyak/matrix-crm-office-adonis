@@ -35,3 +35,10 @@ jobs:
     
     - name: Install Production Dependencies
       run: yarn install --production
+      
+    - name: Stop pm2
+      run: pm2 stop MatrixCrmBackend
+      if: ${{failure()}}
+      
+    - name: Start pm2
+      run: pm2 start server.js --name MatrixCrmBackend
