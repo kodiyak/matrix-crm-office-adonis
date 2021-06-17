@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Moving Tmp Files
-        run: cp -r ./build/tmp ${{ matrix.tmp-file }}
+        run: cp -r ./build/tmp /home/kodiyak/tmp-matrix-adonis
 
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
@@ -44,7 +44,7 @@ jobs:
         run: cp /home/kodiyak/projects/envs/.env-matrix-adonis-crm .env
 
       - name: Moving Tmp Files
-        run: mv ${{ matrix.tmp-file }} ./build/tmp
+        run: mv /home/kodiyak/tmp-matrix-adonis ./build/tmp
 
       - run: chmod 777 -R ./build/tmp
 
