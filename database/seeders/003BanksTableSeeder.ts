@@ -10,6 +10,11 @@ export default class BanksTableSeederSeeder extends BaseSeeder {
       .then((banks) => {
         return Bank.updateOrCreateMany(['ispb'], banks)
       })
+
+    await Bank.firstOrCreate({
+      fullName: 'Ordem de Pagamento',
+      name: 'Ordem de Pagamento',
+    })
     // Write your database queries inside the run method
   }
 }

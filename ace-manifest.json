@@ -1,5 +1,17 @@
 {
   "commands": {
+    "evisa:bootstrap": {
+      "settings": {
+        "loadApp": true,
+        "stayAlive": false
+      },
+      "commandPath": "./commands/EvisaBootstrap",
+      "commandName": "evisa:bootstrap",
+      "description": "",
+      "args": [],
+      "aliases": [],
+      "flags": []
+    },
     "update:server_db": {
       "settings": {
         "loadApp": true,

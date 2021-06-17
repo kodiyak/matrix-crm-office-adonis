@@ -81,7 +81,7 @@ const databaseConfig: DatabaseConfig = {
         port: 3306,
         user: 'dev',
         password: '@JustDevelopers2021',
-        database: 'devdb2',
+        database: 'matrix_crm',
       },
       migrations: {
         naturalSort: true,

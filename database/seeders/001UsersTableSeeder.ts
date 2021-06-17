@@ -4,7 +4,7 @@ import AuthSys from 'App/Services/Memory/AuthSys'
 
 export default class UsersTableSeederSeeder extends BaseSeeder {
   public async run() {
-    AuthSys.user = await User.firstOrCreate(
+    AuthSys.user = await User.updateOrCreate(
       {
         email: 'matrix@email.com',
       },
@@ -12,6 +12,7 @@ export default class UsersTableSeederSeeder extends BaseSeeder {
         username: 'Sistema',
         isActive: true,
         password: 'matrix@ltda',
+        role: 'admin',
       }
     )
   }

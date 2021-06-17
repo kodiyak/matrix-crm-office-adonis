@@ -24,6 +24,7 @@ export default class EVisaMigrationSeederSeeder extends BaseSeeder {
   private banks: Bank[] = []
 
   public async run() {
+    return
     // console.log(AuthSys.user)
     this.banks = await Bank.all()
     const usersError: any[] = []
@@ -67,16 +68,16 @@ export default class EVisaMigrationSeederSeeder extends BaseSeeder {
 
     const personInfo = await PersonInfo.create({
       phones,
-      cpf: StrHelper.digits(userConsulta.cpf),
-      firstName: StrHelper.title(userConsulta.nome).trim(),
+      cpf: StrHelper.html.decode(StrHelper.digits(userConsulta.cpf)),
+      firstName: StrHelper.html.decode(StrHelper.title(userConsulta.nome).trim()),
       genre: userConsulta.sexo,
-      fathersFullname: StrHelper.title(userConsulta.nome_pai).trim(),
-      mothersFullname: StrHelper.title(userConsulta.nome_mae).trim(),
+      fathersFullname: StrHelper.html.decode(StrHelper.title(userConsulta.nome_pai).trim()),
+      mothersFullname: StrHelper.html.decode(StrHelper.title(userConsulta.nome_mae).trim()),
       dependentsNumber: Number(StrHelper.digits(userConsulta.n_dependentes)) || 0,
       maritalStatus: Number(StrHelper.digits(userConsulta.estado_civil)),
       educationalLevel: Number(StrHelper.digits(userConsulta.grau_instrucao)) || 0,
-      nacionality: StrHelper.title(userConsulta.nacionalidade).trim(),
-      naturalness: StrHelper.title(userConsulta.naturalidade).trim(),
+      nacionality: StrHelper.html.decode(StrHelper.title(userConsulta.nacionalidade).trim()),
+      naturalness: StrHelper.html.decode(StrHelper.title(userConsulta.naturalidade).trim()),
       state: (userConsulta.estado || '').toUpperCase().trim(),
     })
 
@@ -102,7 +103,7 @@ export default class EVisaMigrationSeederSeeder extends BaseSeeder {
       state: (userConsulta.estado || '').toUpperCase().trim(),
       city: StrHelper.title(StrHelper.html.decode(userConsulta.cidade).trim()),
       neighborhood: StrHelper.title(StrHelper.html.decode(userConsulta.bairro).trim()),
-      complement: StrHelper.title(userConsulta.complemento).trim(),
+      complement: StrHelper.html.decode(StrHelper.title(userConsulta.complemento).trim()),
       personInfoId: personInfo.id,
     })
 
