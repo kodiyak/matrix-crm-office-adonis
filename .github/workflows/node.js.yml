@@ -5,13 +5,12 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
-
     runs-on: self-hosted
 
     strategy:
@@ -20,30 +19,38 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-    
-    - name: Install Dependencies
-      run: yarn install
-    
-    - name: Build Application
-      run: yarn build
-    
-    - name: Install Production Dependencies
-      working-directory: ./build
-      run: yarn install --production
-      
-    - name: Copy Env
-      working-directory: ./build
-      run: cp /home/kodiyak/projects/envs/.env-matrix-adonis-crm .env
-      
-    - name: Stop pm2
-      run: pm2 stop MatrixCrmBackend
-      if: ${{failure()}}
-      
-    - name: Start pm2
-      working-directory: ./build
-      run: pm2 start server.js --name MatrixCrmBackend
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Moving Tmp Files
+        run: mv ./build/tmp /tmp-matrix-adonis
+
+      - name: Install Dependencies
+        run: yarn install --fronzen-lockfile
+
+      - name: Build Application
+        run: yarn build
+
+      - name: Install Production Dependencies
+        working-directory: ./build
+        run: yarn install --production
+
+      - name: Copy Env
+        working-directory: ./build
+        run: cp /home/kodiyak/projects/envs/.env-matrix-adonis-crm .env
+
+      - name: Moving Tmp Files
+        run: mv /tmp-matrix-adonis ./build/tmp
+
+      - run: chmod 777 -R ./build/tmp
+
+      - name: Stop pm2
+        run: pm2 stop MatrixCrmBackend
+        if: ${{failure()}}
+
+      - name: Start pm2
+        working-directory: ./build
+        run: pm2 start server.js --name MatrixCrmBackend
