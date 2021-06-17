@@ -12,6 +12,8 @@ on:
 jobs:
   build:
     runs-on: self-hosted
+    env:
+      TMP_DIR: /home/kodiyak/projects/files/tmp-matrix-adonis
 
     strategy:
       matrix:
@@ -20,7 +22,7 @@ jobs:
 
     steps:
       - name: Moving Tmp Files
-        run: mv ./build/tmp /home/kodiyak/files/tmp-matrix-adonis
+        run: mv ./build/tmp ${{ env.TMP_DIR }}
 
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
@@ -43,7 +45,7 @@ jobs:
         run: cp /home/kodiyak/projects/envs/.env-matrix-adonis-crm .env
 
       - name: Moving Tmp Files
-        run: mv /home/kodiyak/files/tmp-matrix-adonis ./build/tmp
+        run: mv ${{ env.TMP_DIR }} ./build/tmp
 
       - run: chmod 777 -R ./build/tmp
 
