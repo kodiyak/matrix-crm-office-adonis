@@ -20,6 +20,8 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
+Route.get('/', 'Api/HomeController.index')
+
 Route.post('/api/oauth', 'Api/AuthController.login')
 Route.get('/api/oauth', 'Api/AuthController.boot')
 
