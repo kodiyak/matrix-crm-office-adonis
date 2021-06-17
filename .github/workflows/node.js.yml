@@ -36,6 +36,10 @@ jobs:
       working-directory: ./build
       run: yarn install --production
       
+    - name: Copy Env
+      working-directory: ./build
+      run: cp /home/kodiyak/projects/envs/.env-matrix-adonis-crm .env
+      
     - name: Stop pm2
       run: pm2 stop MatrixCrmBackend
       if: ${{failure()}}
