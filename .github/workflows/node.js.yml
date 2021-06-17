@@ -20,7 +20,7 @@ jobs:
 
     steps:
       - name: Moving Tmp Files
-        run: sudo mv ./build/tmp /tmp-matrix-adonis
+        run: cp -r ./build/tmp /tmp-matrix-adonis
 
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
