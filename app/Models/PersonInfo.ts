@@ -10,7 +10,6 @@ import {
   ManyToMany,
 } from '@ioc:Adonis/Lucid/Orm'
 import Address from './Address'
-import DocInfo from './DocInfo'
 import Client from './Client'
 import BankInfo from './BankInfo'
 import FolderItem from './FolderItem'
