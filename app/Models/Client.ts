@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, computed } from '@ioc:Adonis/Lucid/Orm'
 import PersonInfo from './PersonInfo'
 import User from './User'
 import BankInfo from './BankInfo'
@@ -22,6 +22,11 @@ export default class Client extends BaseModel {
 
   @column()
   public isActive: boolean
+
+  @computed()
+  public get robotEntryReference() {
+    return `client-${this.id}`
+  }
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

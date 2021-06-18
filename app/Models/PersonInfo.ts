@@ -32,6 +32,18 @@ export default class PersonInfo extends BaseModel {
   public cpf: string
 
   @column()
+  public rg: string
+
+  @column.dateTime()
+  public rgIssueDate: DateTime
+
+  @column()
+  public rgState: string
+
+  @column()
+  public rgOrgaoEmissor: string
+
+  @column()
   public cnpj: string
 
   @column()

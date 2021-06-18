@@ -32,6 +32,10 @@ Route.post('/api/users/:id', 'Api/UsersController.update')
 Route.post('/api/personsinfos', 'Api/PersonsInfosController.create')
 
 Route.get('/api/clients/:id', 'Api/ClientsController.show')
+Route.get('/api/clients/:id/entries', 'Api/ClientsController.showEntries')
 Route.get('/api/clients', 'Api/ClientsController.index')
 
 Route.get('/api/filesystem', 'Api/FileSystemsController.show')
+
+Route.post('/api/robots/bradesco-inss/:client_id', 'Api/Robots/BradescoInssController.index')
+Route.get('/api/robots/entries', 'Api/Robots/RobotManagerController.index')
