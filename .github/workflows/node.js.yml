@@ -21,9 +21,17 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - name: Moving Tmp Files
-        run: mv ./build/tmp ${{ env.TMP_DIR }}
+      - name: Check Tmp File
+        id: check_tmp_files
+        uses: andstor/file-existence-action@v1
+        with:
+          files: "./build/tmp"
 
+      - name: File exists
+        if: steps.check_tmp_files.outputs.files_exists == 'true'
+        # Only runs if all of the files exists
+        run: mv ./build/tmp ${{ env.TMP_DIR }}
+        
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
