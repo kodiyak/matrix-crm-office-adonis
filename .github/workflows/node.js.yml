@@ -50,7 +50,7 @@ jobs:
       - run: chmod 777 -R ./build/tmp
 
       - name: Stop pm2
-        run: pm2 stop MatrixCrmBackend
+        run: pm2 delete MatrixCrmBackend
         if: ${{failure()}}
 
       - name: Start pm2
