@@ -12,7 +12,7 @@ export default class ClientsController {
   public async show({ params }: HttpContextContract) {
     const client = await Client.findOrFail(params.id)
     await client.load('personInfo', (query) => {
-      query.preload('addresses').preload('banks').preload('docs').preload('folders')
+      query.preload('addresses').preload('banks').preload('folders')
     })
     await client.load('owner')
 

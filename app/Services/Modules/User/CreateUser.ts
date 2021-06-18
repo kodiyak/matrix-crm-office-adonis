@@ -17,7 +17,7 @@ class CreateUser implements Service.BaseHandler<any, User> {
       user.personInfoId = personInfo.id
       await user.save()
 
-      await user.load('personInfo', (q) => q.preload('addresses').preload('docs'))
+      await user.load('personInfo', (q) => q.preload('addresses'))
     }
 
     if (addresses) {

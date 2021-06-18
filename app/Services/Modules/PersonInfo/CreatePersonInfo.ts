@@ -10,10 +10,10 @@ class CreatePersonInfo implements Service.BaseHandler<any, PersonInfo> {
       await personInfo.load('addresses')
     }
 
-    if (docs) {
-      await personInfo.related('docs').createMany(docs)
-      await personInfo.load('docs')
-    }
+    // if (docs) {
+    //   await personInfo.related('docs').createMany(docs)
+    //   await personInfo.load('docs')
+    // }
 
     return personInfo
   }
