@@ -100,12 +100,6 @@ export default class PersonInfo extends BaseModel {
   })
   public addresses: HasMany<typeof Address>
 
-  @hasMany(() => DocInfo, {
-    foreignKey: 'personInfoId',
-    localKey: 'id',
-  })
-  public docs: HasMany<typeof DocInfo>
-
   @hasMany(() => BankInfo, {
     foreignKey: 'personInfoId',
     localKey: 'id',
