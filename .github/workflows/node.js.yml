@@ -55,4 +55,4 @@ jobs:
 
       - name: Start pm2
         working-directory: ./build
-        run: pm2 start server.js --name MatrixCrmBackend
+        run: pm2 start server.js --name MatrixCrmBackend -f
