@@ -17,7 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [14.15.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -25,13 +25,13 @@ jobs:
         id: check_tmp_files
         uses: andstor/file-existence-action@v1
         with:
-          files: "./build/tmp"
+          files: './build/tmp'
 
       - name: File exists
         if: steps.check_tmp_files.outputs.files_exists == 'true'
         # Only runs if all of the files exists
         run: mv ./build/tmp ${{ env.TMP_DIR }}
-        
+
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
@@ -51,7 +51,7 @@ jobs:
       - name: Copy Env
         working-directory: ./build
         run: cp /home/kodiyak/projects/envs/.env-matrix-adonis-crm .env
-        
+
       - name: Moving Tmp Files
         run: mv ${{ env.TMP_DIR }} ./build/tmp
 
