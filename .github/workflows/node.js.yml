@@ -21,9 +21,17 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - name: Moving Tmp Files
-        run: mv ./build/tmp ${{ env.TMP_DIR }}
+      - name: Check Tmp File
+        id: check_tmp_files
+        uses: andstor/file-existence-action@v1
+        with:
+          files: "./build/tmp"
 
+      - name: File exists
+        if: steps.check_tmp_files.outputs.files_exists == 'true'
+        # Only runs if all of the files exists
+        run: mv ./build/tmp ${{ env.TMP_DIR }}
+        
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
@@ -43,16 +51,16 @@ jobs:
       - name: Copy Env
         working-directory: ./build
         run: cp /home/kodiyak/projects/envs/.env-matrix-adonis-crm .env
-
+        
       - name: Moving Tmp Files
         run: mv ${{ env.TMP_DIR }} ./build/tmp
 
       - run: chmod 777 -R ./build/tmp
 
       - name: Stop pm2
-        run: pm2 stop MatrixCrmBackend
+        run: pm2 delete MatrixCrmBackend
         if: ${{failure()}}
 
       - name: Start pm2
         working-directory: ./build
-        run: pm2 start server.js --name MatrixCrmBackend
+        run: pm2 start server.js --name MatrixCrmBackend -f
