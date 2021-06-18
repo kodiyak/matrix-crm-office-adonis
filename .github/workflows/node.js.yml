@@ -43,6 +43,10 @@ jobs:
       - name: Copy Env
         working-directory: ./build
         run: cp /home/kodiyak/projects/envs/.env-matrix-adonis-crm .env
+        
+      - name: Run Migrations
+        working-directory: ./build
+        run: node ace migration:run
 
       - name: Moving Tmp Files
         run: mv ${{ env.TMP_DIR }} ./build/tmp
