@@ -7,36 +7,44 @@ export default class BradescoInssController {
   private client: Client
 
   public async index(ctx: HttpContextContract) {
-    const { params, response } = ctx
-    const { client_id } = params
+    const { request, params, response } = ctx
+    const { clientId } = params
 
-    this.client = await Client.firstOrFail(client_id)
+    this.client = await Client.findOrFail(clientId)
     await this.client.load('bankInfo')
     await this.client.load('personInfo', (query) => {
       query.preload('addresses').preload('banks', (q) => q.preload('bank'))
     })
 
-    const data = await this.loadAndTraitData(ctx)
-
-    return RobotManagerApi.send('bradesco-inss', data)
-      .then(async (dataEntry) => {
-        await RobotEntryDispatcher.create({
-          uuid: dataEntry.uuid,
-          reference: this.client.robotEntryReference,
+    const execute = (data: any) => {
+      return RobotManagerApi.send('bradesco-inss', data)
+        .then(async (dataEntry) => {
+          await RobotEntryDispatcher.create({
+            uuid: dataEntry.uuid,
+            reference: this.client.robotEntryReference,
+          })
+          return { client: this.client, dataEntry }
         })
-        return dataEntry
-      })
-      .catch((err) => {
-        if (err.response) {
-          return response.status(err.response.status).json(err.response.data)
-        }
-      })
+        .catch((err) => {
+          if (err.response) {
+            return response.status(err.response.status).json(err.response.data)
+          }
+        })
+    }
+
+    if (!request.all().nome) {
+      const data = await this.loadAndTraitData(ctx)
+      return execute(data)
+    } else {
+      const data = request.all()
+      return execute(data)
+    }
   }
 
   private async loadAndTraitData(ctx: HttpContextContract) {
     const { request } = ctx
     const { address, bank, robot_props, ...data } = request.all()
-    const { personInfo, bankInfo } = this.client
+    const { personInfo } = this.client
     const {
       banks: [bankModel],
       addresses: [addressModel],
@@ -48,9 +56,9 @@ export default class BradescoInssController {
     const naturalidade = data.naturalness || personInfo.naturalness
     const estadoCivil = data.marital_status || personInfo.maritalStatus
     const cpf = data.cpf || personInfo.cpf
-    const dataNascimento = data.birthday_date || personInfo.birthdayDate.toString()
+    const dataNascimento = data.birthday_date || personInfo.birthdayDate?.toString()
     const rg = data.rg || personInfo.rg
-    const dataEmissaoRg = data.rg_issue_date || personInfo.rgIssueDate.toString()
+    const dataEmissaoRg = data.rg_issue_date || personInfo.rgIssueDate?.toString()
     const nomePai = data.fathers_fullname || personInfo.fathersFullname
     const nomeMae = data.mothers_fullname || personInfo.mothersFullname
     const tipoDoc = '1'
