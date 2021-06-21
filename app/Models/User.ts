@@ -8,9 +8,13 @@ import {
   HasOne,
   hasMany,
   HasMany,
+  manyToMany,
+  ManyToMany,
 } from '@ioc:Adonis/Lucid/Orm'
+
 import PersonInfo from './PersonInfo'
 import Address from './Address'
+import Tag from './Tag'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -64,4 +68,11 @@ export default class User extends BaseModel {
     localKey: 'id',
   })
   public addresses: HasMany<typeof Address>
+
+  @manyToMany(() => Tag, {
+    pivotTable: 'users_has_tags',
+    pivotForeignKey: 'user_id',
+    pivotRelatedForeignKey: 'tag_id',
+  })
+  public tags: ManyToMany<typeof Tag>
 }

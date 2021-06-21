@@ -31,7 +31,7 @@ export default class ClientsController {
       in: {
         uuid: entriesUuid.map(({ uuid }) => uuid),
       },
-    })
+    }).catch(() => [])
 
     return entries
   }

@@ -8,8 +8,9 @@ import DocInfo from 'App/Models/DocInfo'
 import Address from 'App/Models/Address'
 import Bank from '../../../Models/Helper/Bank'
 import BankInfo from '../../../Models/BankInfo'
+import Tag from '../../../Models/Tag'
 
-type ModelsCounters = 'users' | 'clients' | 'docs' | 'personInfos' | 'banks' | 'bankInfos'
+type ModelsCounters = 'users' | 'clients' | 'docs' | 'personInfos' | 'banks' | 'bankInfos' | 'tags'
 
 interface ModelsCounterReturn {
   // @ts-ignore
@@ -26,6 +27,7 @@ class ModelsCounter implements Service.BaseHandler<any, ModelsCounterReturn> {
       addresses: await DBHelper.count(Address),
       banks: await DBHelper.count(Bank),
       bankInfos: await DBHelper.count(BankInfo),
+      tags: await DBHelper.count(Tag),
     }
   }
 }

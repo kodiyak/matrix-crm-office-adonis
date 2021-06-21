@@ -29,7 +29,13 @@ Route.post('/api/users', 'Api/UsersController.create')
 Route.get('/api/users', 'Api/UsersController.index')
 Route.post('/api/users/:id', 'Api/UsersController.update')
 
+Route.get('/api/tags', 'Api/TagsController.index')
+Route.post('/api/tags', 'Api/TagsController.create')
+
 Route.post('/api/personsinfos', 'Api/PersonsInfosController.create')
+
+Route.post('/api/excel/import/:type', 'Api/ExcelsController.import')
+Route.get('/api/excel/export/:type/rows', 'Api/ExcelsController.getExportRows')
 
 Route.get('/api/clients/:id', 'Api/ClientsController.show')
 Route.get('/api/clients/:id/entries', 'Api/ClientsController.showEntries')
