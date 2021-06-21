@@ -39,7 +39,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install Dependencies
-        run: yarn install --fronzen-lockfile
+        run: yarn
 
       - name: Build Application
         run: yarn build
