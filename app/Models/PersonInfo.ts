@@ -76,7 +76,7 @@ export default class PersonInfo extends BaseModel {
   public naturalness: string
 
   @column({
-    consume: (v) => 'alteraste',
+    consume: () => 'altereiste',
     prepare: (v) => (v ? JSON.stringify(v) : undefined),
   })
   public phones: string[]
