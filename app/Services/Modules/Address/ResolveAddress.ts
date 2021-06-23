@@ -2,8 +2,8 @@ import BrasilApi from 'App/Services/Api/BrasilApi'
 import StrHelper from 'App/Services/Helpers/StrHelper'
 import Logger from '@ioc:Adonis/Core/Logger'
 import MapBoxApi from 'App/Services/Api/MapBoxApi'
-import GoogleMapsApi from 'App/Services/Api/GoogleMapsApi'
-import PositionStackApi from 'App/Services/Api/PositionStackApi'
+// import GoogleMapsApi from 'App/Services/Api/GoogleMapsApi'
+// import PositionStackApi from 'App/Services/Api/PositionStackApi'
 
 interface ResolveAddressOptions {
   cep?: string
