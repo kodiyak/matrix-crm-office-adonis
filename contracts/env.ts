@@ -22,5 +22,7 @@ declare module '@ioc:Adonis/Core/Env' {
   interface EnvTypes extends CustomTypes {
     ROBOT_MANAGER_URL: string
     MAPBOX_TOKEN: string
+    GOOGLE_MAPS_TOKEN: string
+    POSITION_STACK_TOKEN: string
   }
 }

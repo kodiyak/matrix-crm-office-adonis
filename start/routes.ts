@@ -41,6 +41,8 @@ Route.get('/api/clients/:id', 'Api/ClientsController.show')
 Route.get('/api/clients/:id/entries', 'Api/ClientsController.showEntries')
 Route.get('/api/clients', 'Api/ClientsController.index')
 
+Route.post('/api/helpers/address/resolve', 'Helpers/AddressesController.resolve')
+
 Route.get('/api/filesystem', 'Api/FileSystemsController.show')
 
 Route.post('/api/robots/bradesco-inss/:clientId', 'Api/Robots/BradescoInssController.index')
