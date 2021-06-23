@@ -12,8 +12,6 @@ interface ResolveAddressOptions {
 
 class ResolveAddress {
   public async run({ cep, search }: ResolveAddressOptions) {
-    const messages = []
-
     if (cep) {
       return this.brasilApiResolverByCep(cep).catch(() => {
         if (!search) {
@@ -54,15 +52,15 @@ class ResolveAddress {
     })
   }
 
-  private positionStackSearch(searchOrCep: string) {
-    // É LIXO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    return PositionStackApi.search(searchOrCep)
-  }
+  // private positionStackSearch(searchOrCep: string) {
+  //   // É LIXO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  //   return PositionStackApi.search(searchOrCep)
+  // }
 
-  private googleMapsSearch(searchOrCep: string) {
-    // API PAGA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    return GoogleMapsApi.search(searchOrCep)
-  }
+  // private googleMapsSearch(searchOrCep: string) {
+  //   // API PAGA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  //   return GoogleMapsApi.search(searchOrCep)
+  // }
 }
 
 export default new ResolveAddress()
