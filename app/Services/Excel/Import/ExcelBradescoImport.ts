@@ -14,6 +14,7 @@ import { DateTime } from 'luxon'
 import ExcelBradescoInssRow from '../../../Models/Excel/ExcelBradescoInssRow'
 import Address from '../../../Models/Address'
 import BankInfo from '../../../Models/BankInfo'
+import ResolveAddress from 'App/Services/Modules/Address/ResolveAddress'
 
 type ExcelBradescoRow = typeof bradescoRow
 
@@ -29,9 +30,9 @@ export class ExcelBradescoImport {
       const item = data[index]
       try {
         await this.runByItem(item)
-        Logger.info(`[ITEM_${index}][${data.length}][OK]`)
+        Logger.info(`[${item.nome}][${data.length}][ITEM_${index}][OK]`)
       } catch (e) {
-        Logger.error(`[ITEM_${index}][${data.length}][ERROR: ${e}]`)
+        Logger.error(`[${item.nome}][${data.length}][ITEM_${index}][ERROR: ${e}]`)
       }
     }
 
@@ -39,6 +40,11 @@ export class ExcelBradescoImport {
   }
 
   private async runByItem(data: ExcelBradescoRow) {
+    const [typeContaSlug] = this.getTypeNumberConta(data)
+    if (typeContaSlug === 'cartao-magnetico') {
+      Logger.info(`[${data.nome}][CARTAO_MAGNETICO]`)
+    }
+
     const { personInfo, address, bankInfo } = await this.findAndUpdate(data)
     const excelRow = await this.findOrCreateExcelRow(data, address, personInfo, bankInfo)
     await excelRow.related('excelImport').associate(this.excelImport)
@@ -90,6 +96,7 @@ export class ExcelBradescoImport {
       forceSave: false,
       forceClientSave: false,
     }
+
     const personInfo = await PersonInfo.findByOrFail('cpf', data.cpf).catch(() => {
       return this.createPersonInfo(data)
     })
@@ -123,11 +130,17 @@ export class ExcelBradescoImport {
     return { personInfo, address, bankInfo }
   }
 
+  private getTypeNumberConta(data: ExcelBradescoRow) {
+    const [typeC, number] = data.meioPagamentoDadosBancario.split('-')
+    const typeContaSlug = StrHelper.slug(typeC)
+    return [typeContaSlug, number] as string[]
+  }
+
   private async refreshBankInfos(data: ExcelBradescoRow, personInfo: PersonInfo) {
     const { banks } = personInfo
-    const [typeC, numberC] = data.meioPagamentoDadosBancario.split('-')
+    const [typeContaSlug, numberC] = this.getTypeNumberConta(data)
+    const isCC = typeContaSlug === 'conta-corrente'
 
-    const isCC = StrHelper.slug(typeC) === 'conta-corrente'
     const bank = banks.find((bankInfo) => {
       const isContaBancaria = isCC ? bankInfo.cc === numberC : bankInfo.cp === numberC
       const isBank = bankInfo.bank.code === String(data.bancoDadosBancario)
@@ -146,7 +159,9 @@ export class ExcelBradescoImport {
         cc: isCC ? numberC : undefined,
         cp: !isCC ? numberC : undefined,
       })
-      Logger.info(`[NEW_BANK_INFO][${personInfo.firstName}][CONTA: ${numberC}]`)
+      Logger.info(
+        `[${personInfo.firstName}][NEW_BANK_INFO][TYPE: ${typeContaSlug}][CONTA: ${numberC}]`
+      )
 
       return nextBank
     }
@@ -170,41 +185,31 @@ export class ExcelBradescoImport {
     if (address) {
       return address
     } else {
-      const brasilApiAddress = await BrasilApi.findByCep(StrHelper.digits(data.cep))
-        .catch(async () => {
-          const mapBoxAddress = await MapBoxApi.search(data.endereco)
-          const findBrasilApi = (lastChars: number): Promise<CepResponse> => {
-            if (lastChars > 900)
-              throw new Error(`BRASIL_MAPBOX_API_ERROR [ERR: Not possible to find address CEP]`)
+      const addressResolved = await ResolveAddress.run({
+        cep: data.cep,
+        search: `${data.endereco}, ${data.bairro}, ${data.uf}`,
+      }).catch(() => {
+        Logger.error(`[${data.nome}][CEP: ${data.cep}][ENDERECO: ${data.endereco}] ADDRESS_ERROR`)
 
-            const nextLastChars = lastChars <= 0 ? '000' : lastChars
-            return BrasilApi.findByCep(`${mapBoxAddress.postCode}${nextLastChars}`).catch(() => {
-              return findBrasilApi(lastChars + 100)
-            })
-          }
-
-          return findBrasilApi(0)
-        })
-        .catch(() => {
-          return {
-            city: data.cidade,
-            state: data.uf,
-            neighborhood: data.bairro,
-            street: data.endereco,
-            cep: data.cep,
-          }
-        })
+        return {
+          city: data.cidade,
+          state: data.uf,
+          neighborhood: data.bairro,
+          street: data.endereco,
+          cep: data.cep,
+        }
+      })
 
       const nextAddress = await personInfo.related('addresses').create({
-        city: brasilApiAddress.city,
-        cep: brasilApiAddress.cep,
-        neighborhood: brasilApiAddress.neighborhood,
+        city: addressResolved.city,
+        cep: addressResolved.cep,
+        neighborhood: addressResolved.neighborhood,
         number: getNumberByEndereco(),
-        place: brasilApiAddress.street,
-        state: brasilApiAddress.state,
+        place: addressResolved.street,
+        state: addressResolved.state,
         userId: AuthSys.user.id,
       })
-      Logger.info(`[NEW_ADDRESS][${personInfo.firstName}][${nextAddress.place}]`)
+      Logger.info(`[${data.nome}][NEW_ADDRESS][${nextAddress.place}]`)
 
       return nextAddress
     }

@@ -32,7 +32,7 @@ class ResolveAddress {
 
   private brasilApiResolverByCep(cep: string) {
     return BrasilApi.findByCep(StrHelper.digits(cep)).catch((err) => {
-      Logger.error(`ADDRESS_RESOLVER [BrasilApi][${err}]`)
+      // Logger.error(`ADDRESS_RESOLVER [BrasilApi][${err}]`)
       throw new Error(err)
     })
   }

@@ -49,20 +49,25 @@ export default class ExcelsController {
   }
 
   public async getExportRows(ctx: HttpContextContract) {
-    const { request } = ctx
-    const { tags } = request.all()
+    // const { request, response } = ctx
+    // const { tags } = request.all()
 
-    const findedTags = await Tag.query()
-      .whereIn('id', tags)
-      .preload('inssRows', (query) => {
-        query.preload('address').preload('bankInfo').preload('client').preload('tags')
-      })
-      .exec()
-    const rows: ExcelBradescoInssRow[] = []
-    for (const tag of findedTags) {
-      tag.inssRows.forEach((row) => rows.push(row))
-    }
+    // const findedTags = await Tag.query()
+    //   .whereIn('id', tags)
+    //   .preload('inssRows', (query) => {
+    //     query.preload('address').preload('bankInfo').preload('client').preload('tags')
+    //   })
+    //   .exec()
 
-    return rows
+    // if (findedTags.length <= 0) {
+    //   return response.notFound({ message: 'Tags not found' })
+    // }
+    // const rows: ExcelBradescoInssRow[] = []
+    // for (const tag of findedTags) {
+    //   tag.inssRows.forEach((row) => rows.push(row))
+    // }
+
+    // return rows
+    return []
   }
 }

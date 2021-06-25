@@ -34,8 +34,12 @@ Route.post('/api/tags', 'Api/TagsController.create')
 
 Route.post('/api/personsinfos', 'Api/PersonsInfosController.create')
 
-Route.post('/api/excel/import/:type', 'Api/ExcelsController.import')
-Route.get('/api/excel/export/:type/rows', 'Api/ExcelsController.getExportRows')
+Route.post('/api/imports/:type', 'ClientsData/ImportsController.upload')
+Route.post('/api/imports/execute/:tableImportId', 'ClientsData/ImportsController.import')
+
+Route.get('/api/exports', 'ClientsData/ExportsController.index')
+Route.get('/api/exports/rows', 'ClientsData/ExportsController.getRows')
+// Route.get('/api/excel/export/:type/rows', 'Api/ExcelsController.getExportRows')
 
 Route.get('/api/clients/:id', 'Api/ClientsController.show')
 Route.get('/api/clients/:id/entries', 'Api/ClientsController.showEntries')

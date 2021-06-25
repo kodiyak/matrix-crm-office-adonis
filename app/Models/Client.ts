@@ -1,5 +1,13 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column, computed } from '@ioc:Adonis/Lucid/Orm'
+import {
+  BaseModel,
+  BelongsTo,
+  belongsTo,
+  column,
+  computed,
+  ManyToMany,
+  manyToMany,
+} from '@ioc:Adonis/Lucid/Orm'
 import PersonInfo from './PersonInfo'
 import User from './User'
 import BankInfo from './BankInfo'
@@ -48,4 +56,11 @@ export default class Client extends BaseModel {
     foreignKey: 'bankInfoId',
   })
   public bankInfo: BelongsTo<typeof BankInfo>
+
+  @manyToMany(() => Client, {
+    pivotTable: 'clients_has_tags',
+    pivotForeignKey: 'client_id',
+    pivotRelatedForeignKey: 'tag_id',
+  })
+  public clients: ManyToMany<typeof Client>
 }

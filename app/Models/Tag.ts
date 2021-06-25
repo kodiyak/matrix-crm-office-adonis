@@ -13,6 +13,8 @@ import User from './User'
 import StrHelper from 'App/Services/Helpers/StrHelper'
 import Client from './Client'
 import ExcelBradescoInssRow from './Excel/ExcelBradescoInssRow'
+import TableExportClient from './ClientsData/TableExportClient'
+import TableImportClient from './ClientsData/TableImportClient'
 
 export default class Tag extends BaseModel {
   @column({ isPrimary: true })
@@ -57,14 +59,21 @@ export default class Tag extends BaseModel {
     pivotForeignKey: 'tag_id',
     pivotRelatedForeignKey: 'client_id',
   })
-  public users: ManyToMany<typeof Client>
+  public clients: ManyToMany<typeof Client>
 
-  @manyToMany(() => ExcelBradescoInssRow, {
-    pivotTable: 'excel_bradesco_inss_rows_has_tags',
+  @manyToMany(() => TableExportClient, {
+    pivotTable: 'table_export_clients_has_tags',
     pivotForeignKey: 'tag_id',
-    pivotRelatedForeignKey: 'inss_row_id',
+    pivotRelatedForeignKey: 'table_export_id',
   })
-  public inssRows: ManyToMany<typeof ExcelBradescoInssRow>
+  public exportsClients: ManyToMany<typeof TableExportClient>
+
+  @manyToMany(() => TableImportClient, {
+    pivotTable: 'table_import_clients_has_tags',
+    pivotForeignKey: 'tag_id',
+    pivotRelatedForeignKey: 'table_import_id',
+  })
+  public importsClients: ManyToMany<typeof TableImportClient>
 
   @belongsTo(() => User, {
     foreignKey: 'ownerId',
