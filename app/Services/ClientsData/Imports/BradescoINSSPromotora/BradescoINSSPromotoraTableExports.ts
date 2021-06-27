@@ -24,6 +24,7 @@ export class BradescoINSSPromotoraTableExports implements Imports.TableExports {
   private async createTableExport() {
     this.tableExports = await TableExportClient.create({
       ownerId: AuthSys.user.id,
+      tableImportId: this.executor.tableImport.id,
       type: this.executor.tableImport.type,
     })
   }
@@ -35,9 +36,9 @@ export class BradescoINSSPromotoraTableExports implements Imports.TableExports {
       addressId: item.address.id,
       bankInfoId: item.bankInfo.id,
       clientId: item.personInfo.client.id,
-      isError: false,
-      isExecuted: false,
-      isSuccess: false,
+      status: 'none',
+      statusRobot: 'none',
+      threadRobot: 'main',
       tableImportId: this.executor.tableImport.id,
     })
   }
@@ -46,9 +47,8 @@ export class BradescoINSSPromotoraTableExports implements Imports.TableExports {
     const { phones } = item.personInfo
     const [phone] = phones
       ? JSON.parse(item.personInfo.phones as any) || item.personInfo.phones
-      : ''
-    const DDD = phone?.slice(-2) || ''
-    const telefone = phone?.slice(0, -2) || ''
+      : ['']
+    const telefone = phone
 
     return {
       nome: item.personInfo.firstName,
@@ -61,11 +61,11 @@ export class BradescoINSSPromotoraTableExports implements Imports.TableExports {
       tipoPagamento: '0',
       agencia: item.bankInfo.agency,
       bairro: item.address.neighborhood,
-      banco: item.bankInfo.bank.code,
+      banco: item.bankInfo.bank?.code || '',
       beneficio: item.row.beneficio.toString(),
-      celularDDD: DDD,
+      celularDDD: '00',
       celular: telefone,
-      telefoneDDD: DDD,
+      telefoneDDD: '00',
       telefone: telefone,
       contaBancaria: item.bankInfo.cc || item.bankInfo.cp,
       cpf: item.personInfo.cpf,

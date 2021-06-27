@@ -12,7 +12,6 @@ import * as uuid from 'uuid'
 import User from './User'
 import StrHelper from 'App/Services/Helpers/StrHelper'
 import Client from './Client'
-import ExcelBradescoInssRow from './Excel/ExcelBradescoInssRow'
 import TableExportClient from './ClientsData/TableExportClient'
 import TableImportClient from './ClientsData/TableImportClient'
 

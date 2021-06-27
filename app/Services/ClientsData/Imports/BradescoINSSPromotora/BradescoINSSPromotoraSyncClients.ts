@@ -16,15 +16,27 @@ export class BradescoINSSPromotoraSyncClients implements Imports.Synchronizer {
   }
 
   public async run() {
-    // const [item] = this.items
-    // await this.syncRow(item)
-    for (let i = 0; i <= 10; i++) {
-      const item = this.items[i]
+    await this.syncAll()
+    // await this.syncByIndex(0)
+    // await this.syncUpTo(200)
+  }
+
+  // private async syncByIndex(index: number) {
+  //   const item = this.items[index]
+  //   await this.syncRow(item)
+  // }
+
+  // private async syncUpTo(length: number) {
+  //   for (let i = 0; i <= length - 1; i++) {
+  //     const item = this.items[i]
+  //     await this.syncRow(item)
+  //   }
+  // }
+
+  private async syncAll() {
+    for (const item of this.items) {
       await this.syncRow(item)
     }
-    // for (const item of this.items) {
-    //   await this.syncRow(item)
-    // }
   }
 
   public async syncRow(item: Row) {

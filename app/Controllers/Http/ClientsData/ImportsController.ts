@@ -50,7 +50,7 @@ export default class ImportsController {
     new BradescoINSSPromotoraParser(executor)
     new BradescoINSSPromotoraSyncClients(executor)
     new BradescoINSSPromotoraTableExports(executor)
-    const data = await executor.run()
+    await executor.run()
 
     // const personInfo = executor.synchronizer.rows[0].personInfo
     // const exports = executor.tableExportsExecutor.tableExports

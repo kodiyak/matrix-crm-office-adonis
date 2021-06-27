@@ -36,9 +36,9 @@ export default class TableExportClientRows extends BaseSchema {
         .onUpdate('CASCADE')
       table.json('data').nullable()
       table.json('data_export').nullable()
-      table.boolean('is_executed').nullable().defaultTo(false)
-      table.boolean('is_error').nullable().defaultTo(false)
-      table.boolean('is_success').nullable().defaultTo(false)
+      table.string('status_robot').nullable().defaultTo('none')
+      table.string('thread_robot').nullable().defaultTo('main')
+      table.string('status').nullable().defaultTo('none')
 
       /**
        * Uses timestampz for PostgreSQL and DATETIME2 for MSSQL

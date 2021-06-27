@@ -30,7 +30,7 @@ export class BradescoINSSPromotoraSyncRowAddress implements Imports.RowIntercept
 
       this.sync.address = await this.sync.personInfo.related('addresses').create({
         city: addressResolved.city,
-        cep: addressResolved.cep,
+        cep: StrHelper.digits(addressResolved.cep),
         neighborhood: addressResolved.neighborhood,
         number: this.getAddressNumber(),
         place: addressResolved.street,

@@ -23,6 +23,12 @@
         "repl",
         "web"
       ]
+    },
+    {
+      "file": "./start/firebase",
+      "environment": [
+        "web"
+      ]
     }
   ],
   "providers": [

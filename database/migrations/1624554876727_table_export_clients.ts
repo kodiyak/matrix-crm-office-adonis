@@ -8,6 +8,15 @@ export default class TableExportClients extends BaseSchema {
       table.increments('id')
       table.string('type')
 
+      table.json('table_configs').nullable()
+      table
+        .integer('table_import_id')
+        .unsigned()
+        .references('id')
+        .inTable('table_import_clients')
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE')
+        .nullable()
       table
         .integer('owner_id')
         .unsigned()

@@ -34,13 +34,13 @@ export default class TableExportClientRow extends BaseModel {
   public dataExport: any
 
   @column()
-  public isExecuted: boolean
+  public statusRobot: 'none' | 'waiting' | 'consumed' | 'running' | 'finished'
 
   @column()
-  public isError: boolean
+  public threadRobot: string
 
   @column()
-  public isSuccess: boolean
+  public status: 'none' | 'success' | 'error'
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

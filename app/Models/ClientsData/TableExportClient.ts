@@ -21,6 +21,9 @@ export default class TableExportClient extends BaseModel {
   @column()
   public ownerId: number
 
+  @column()
+  public tableImportId: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
