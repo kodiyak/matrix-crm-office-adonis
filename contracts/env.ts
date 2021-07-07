@@ -24,5 +24,7 @@ declare module '@ioc:Adonis/Core/Env' {
     MAPBOX_TOKEN: string
     GOOGLE_MAPS_TOKEN: string
     POSITION_STACK_TOKEN: string
+    GOOGLE_ACCOUNT_EMAIL: string
+    GOOGLE_PRIVATE_KEY: string
   }
 }

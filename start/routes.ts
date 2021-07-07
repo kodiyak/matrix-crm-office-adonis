@@ -38,6 +38,7 @@ Route.post('/api/imports/:type', 'ClientsData/ImportsController.upload')
 Route.post('/api/imports/execute/:tableImportId', 'ClientsData/ImportsController.import')
 
 Route.get('/api/exports', 'ClientsData/ExportsController.index')
+Route.post('/api/exports/:id/spreadsheets', 'ClientsData/ExportsController.syncGoogleSheets')
 Route.get('/api/exports/rows', 'ClientsData/ExportsController.getRows')
 Route.put('/api/exports/rows', 'ClientsData/ExportsController.updateRows')
 

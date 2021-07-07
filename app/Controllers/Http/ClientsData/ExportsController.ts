@@ -2,7 +2,11 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import TableExportClient from 'App/Models/ClientsData/TableExportClient'
 import TableExportClientRow from 'App/Models/ClientsData/TableExportClientRow'
 import firebase from 'firebase'
+import { GoogleSpreadsheet } from 'google-spreadsheet'
 import QueryBuilderController from '../Helpers/QueryBuilderController'
+import Env from '@ioc:Adonis/Core/Env'
+import { googleAccountConfig } from 'Config/google'
+import GDriveAuth from 'App/Models/GDriveAuth'
 
 export default class ExportsController {
   public async index(ctx: HttpContextContract) {
@@ -34,5 +38,20 @@ export default class ExportsController {
     firebase.database().ref(`rows/${tableExportRow.id}/${statusName}`).set(status)
 
     return tableExportRow
+  }
+
+  public async syncGoogleSheets(ctx: HttpContextContract) {
+    const tableExports = await TableExportClient.findOrFail(2)
+    const gDriveAuth = await GDriveAuth.findOrFail(1)
+    await tableExports.related('gDriveAuth').associate(gDriveAuth)
+    await tableExports.toGoogleSpreadsheet()
+    // const doc = await gDriveAuth.newSpreadsheet({
+    //   title: 'Google Excel Test',
+    // })
+
+    // const sheet = doc.sheetsByIndex[0]
+    // sheet.headerValues = ['name', 'email']
+
+    // await sheet.addRow({ name: 'Nome', email: 'Email' })
   }
 }

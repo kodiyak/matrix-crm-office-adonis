@@ -1,0 +1,14 @@
+export const googleAccountConfig = {
+  type: 'service_account',
+  project_id: 'gs-crm-903fe',
+  private_key_id: '8a1d5a8c09f7133bc8f23da0284d831b5ea12d2f',
+  private_key:
+    '-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDUMfzcU1/9oiFC\nyXtLKPUFl1/joszc+/A38LgsWbQvu/8Azq64cIQi80h5LhJf0ZXBAM+vg/k13g3X\n238ccURfgQ5ERwloAE8AjlCB3uIpf0XRwtcqBb0pmQ2k4tgbS6AkGnq4gm+yxe6v\nTh7Mr5bFVGXm9TibahOb7nMNxtJj0Bv1bkO3ZpyEawmHvsbcoheI4356KCzTa71V\ndn7jJ824sbavQbntAigJwo/eWLDLHshXHC3v2YVMWfVEexuCXtiuVFWkcnUztaPd\nrsDtuvz2+Lmc8HQfOYXW4QGwa96HUeHYY6ams0TZ1cvZxd0lJa4t85XiKM/GiZHj\nfCILH4F1AgMBAAECggEACEM4XqbuIbJGu8hHLAPOA1f5NKQMo0fkex/SjW2NHIpk\nPAE69fUcUWpqO8e9ZkGYZHcg3yt90H5onmtjssqT+D5jp752trfuW5iZuMOM8xiL\nh4cKpE5WvDrYuGnZ3Y7kueCAaf9a6e9Bo6Ngg9AMMvuzP8VJh+m0lkQ4ctn3VsoR\nSZblL16pOfp6muMv9ntUKtrtbvaDI124eK9jVv4l3kFgJahp9XhwpxVo0Nz1XVmn\n0RLMJ5Ujnlno57VqPcbBC3mXm4MFdTzdree9Mp6nF/4XwFyEG9Si91phRiaqU/q+\npzaHWvZA0AJEWzCWYuCJtWDvTRVqDdgbpnFRriZ5oQKBgQD5rrkFQUAqaqFn85sN\nD7ftJqWgT9QZjG7JH43ZEDl46hyfUJHJfoNJZ67/GYI8AHVeWU16Y5+CVewVNZ73\nxMC3wxult4cJd2RptNwIJaZXlT7EwseMOqhAG153mH5i0keoU2T0tIWE+i50eZKg\nPi01xEk0MiQmV3er0rlDnlECVQKBgQDZkHKSm+sMbI/QtR9vf7mjm0D9kS8BqKkf\nRcxJ/vRdPkcBJXeXXKhfKV0zIRoDb6oB7n9nNducLB7zTHKHHmHMMfB52CQgv3hI\npzJuLUG5sI6A0LyTOWLBEIkShWmrSv9xrRHmHrmlqij/Xm78UYont18gQQ38YNVx\nEwefp6bioQKBgAldTj8uNVPh7+/QKS6SOlnAq1GZ7OCQbc9JSa6sdxtb3Hr1MKKY\nBiCIrP2QXVwWwFArlUZT2jWvN02MV0v/qyK5RJ4whfYK7k8wo1gC4XxDcrk6fPV7\ndbgBzsc5hvP54wojJpQu+RsFrxxbOu6bpmJv3DcC8mwlt61QF/a7R1qJAoGAKaYv\naMWUb6JwvaGOzQeEgD9+Z4xdlVG2Xpg8DYZTPW5opV2I0V8ZlG4Uu28AzduYjhoc\nJaP30KPZoPXnjtpQGokM4iZwdBxzaGUpkFH1nRihjyNmlkCMGS2TMAp+Oh53XEmn\nfYgwPfifNJPdZ0wsyIGgIkqR5Nicw7LC6NttZUECgYEA5PkylofFgE7VJTUPqIo5\nECzZEaOseh6SHLeCTkk0DPguNAhwaIrAGi2P8Gs+C1Sq8uM4c22tGtR0BJT5YmdA\nnTvZut/SFIkxS8aXuc4I2FSB78B5ablMX8aUnvL6Hk0s3D0oZW7nnWE+SD8TBKt6\n7f3JBtPrKYNkzqBMa2Tm6es=\n-----END PRIVATE KEY-----\n',
+  client_email: 'google-sheets@gs-crm-903fe.iam.gserviceaccount.com',
+  client_id: '111847183769869733412',
+  auth_uri: 'https://accounts.google.com/o/oauth2/auth',
+  token_uri: 'https://oauth2.googleapis.com/token',
+  auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
+  client_x509_cert_url:
+    'https://www.googleapis.com/robot/v1/metadata/x509/google-sheets%40gs-crm-903fe.iam.gserviceaccount.com',
+}
