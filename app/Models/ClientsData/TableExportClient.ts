@@ -11,6 +11,7 @@ import Tag from '../Tag'
 import User from '../User'
 import TableExportClientRow from './TableExportClientRow'
 import GDriveAuth from '../GDriveAuth'
+import { TableExportsGoogleSheets } from 'App/Services/ClientsData/Exports/TableExportsGoogleSheets'
 
 export default class TableExportClient extends BaseModel {
   @column({ isPrimary: true })
@@ -76,67 +77,9 @@ export default class TableExportClient extends BaseModel {
   }
 
   public async toGoogleSpreadsheet() {
-    const tableExports: TableExportClient = this
-    if (!this.gDriveAuthId) {
-      throw new Error('GDrive Auth Id Not Provided')
-    }
-
-    await tableExports.load('gDriveAuth')
-    if (this.gDriveFileId) {
-      return tableExports.gDriveAuth.getSpreadsheet(this.gDriveFileId)
-    }
-
-    await tableExports.load('rows')
-    const fields = Object.keys(tableExports.rows[0].dataExport)
-
-    const doc = await tableExports.gDriveAuth.newSpreadsheet({
-      title: `Exportação Cliente ${tableExports.id} - ${tableExports.type}`,
-    })
-    const { sheets } = this.gDriveAuth.client()
-
-    const sheet = doc.sheetsByIndex[0]
-    await sheet.updateProperties({
-      title: 'Robô INSS',
-      gridProperties: {
-        frozenRowCount: 1,
-        rowCount: tableExports.rows.length,
-        columnCount: fields.length,
-      },
-    })
-
-    await sheet.setHeaderRow(fields)
-
-    await sheet.addRows(tableExports.rows.map((row) => row.dataExport))
-
-    await sheets.spreadsheets.batchUpdate({
-      spreadsheetId: doc.spreadsheetId,
-      requestBody: {
-        requests: [
-          {
-            autoResizeDimensions: {
-              dimensions: {
-                sheetId: Number(sheet.sheetId),
-                dimension: 'COLUMNS',
-                startIndex: 0,
-                endIndex: fields.length - 1,
-              },
-            },
-          },
-          {
-            repeatCell: {
-              range: {
-                startRowIndex: 0,
-                endRowIndex: 1,
-                sheetId: Number(sheet.sheetId),
-              },
-              cell: {
-                userEnteredFormat: { textFormat: { bold: true } },
-              },
-              fields: 'userEnteredFormat.textFormat.bold',
-            },
-          },
-        ],
-      },
-    })
+    const tableExportsGoogleSheets = new TableExportsGoogleSheets(this)
+    const doc = await tableExportsGoogleSheets.run()
+    this.gDriveFileId = doc.spreadsheetId
+    await this.save()
   }
 }

@@ -47,7 +47,7 @@ Route.post(
   '/api/exports/rows/:statusName/:id/:status',
   'ClientsData/ExportsController.updateRowStatus'
 )
-// Route.get('/api/excel/export/:type/rows', 'Api/ExcelsController.getExportRows')
+Route.post('/api/exports/rows/logs', 'ClientsData/ExportsController.createLog')
 
 Route.get('/api/clients/:id', 'Api/ClientsController.show')
 Route.get('/api/clients/:id/entries', 'Api/ClientsController.showEntries')

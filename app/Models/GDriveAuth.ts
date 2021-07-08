@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
-import GDriveClient from 'App/Services/GDrive/GDriveClient'
+import GDriveClient from 'App/Services/Clients/GDriveClient'
 import { sheets_v4 } from 'googleapis'
 import { GoogleSpreadsheet } from 'google-spreadsheet'
 
