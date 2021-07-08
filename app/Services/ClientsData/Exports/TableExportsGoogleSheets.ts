@@ -1,6 +1,7 @@
 import TableExportClient from 'App/Models/ClientsData/TableExportClient'
 import { GoogleSpreadsheet, GoogleSpreadsheetWorksheet } from 'google-spreadsheet'
 import { sheets_v4 } from 'googleapis'
+import { DateTime } from 'luxon'
 
 export class TableExportsGoogleSheets {
   private sheet: GoogleSpreadsheetWorksheet
@@ -64,8 +65,9 @@ export class TableExportsGoogleSheets {
   }
 
   private async newSpreadsheet() {
+    const dateString = DateTime.now().toFormat('dd/LL/yyyy')
     return this.tableExports.gDriveAuth.newSpreadsheet({
-      title: `Exportação Cliente ${this.tableExports.id} - ${this.tableExports.type}`,
+      title: `#${this.tableExports.id} - ${this.tableExports.type} [Clientes] ${dateString}`,
     })
   }
 

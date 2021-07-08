@@ -21,7 +21,7 @@ export default class ExportsController {
   }
 
   public async syncGoogleSheets(ctx: HttpContextContract) {
-    const tableExports = await TableExportClient.findOrFail(2)
+    const tableExports = await TableExportClient.findOrFail(ctx.params.id)
     const gDriveAuth = await GDriveAuth.findOrFail(1)
     await tableExports.related('gDriveAuth').associate(gDriveAuth)
     await tableExports.toGoogleSpreadsheet()
