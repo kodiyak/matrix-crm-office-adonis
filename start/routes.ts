@@ -45,9 +45,13 @@ Route.put('/api/exports/rows', 'ClientsData/ExportsController.updateRows')
 // Robot Status Table Row
 Route.post(
   '/api/exports/rows/:statusName/:id/:status',
-  'ClientsData/ExportsController.updateRowStatus'
+  'ClientsData/Rows/TableExportRowsController.updateRowStatus'
 )
-Route.post('/api/exports/rows/logs', 'ClientsData/ExportsController.createLog')
+Route.post('/api/exports/rows/logs', 'ClientsData/Rows/TableExportRowsController.createLog')
+Route.post(
+  '/api/exports/:tableExportId/rows/:id/sync',
+  'ClientsData/Rows/TableExportRowsController.syncRowExcel'
+)
 
 Route.get('/api/clients/:id', 'Api/ClientsController.show')
 Route.get('/api/clients/:id/entries', 'Api/ClientsController.showEntries')

@@ -1,9 +1,17 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import {
+  BaseModel,
+  belongsTo,
+  BelongsTo,
+  column,
+  manyToMany,
+  ManyToMany,
+} from '@ioc:Adonis/Lucid/Orm'
 import Address from '../Address'
 import BankInfo from '../BankInfo'
 import Client from '../Client'
 import TableImportClient from './TableImportClient'
+import TableExportClient from './TableExportClient'
 
 export default class TableExportClientRow extends BaseModel {
   @column({ isPrimary: true })
@@ -67,4 +75,11 @@ export default class TableExportClientRow extends BaseModel {
     foreignKey: 'tableImportId',
   })
   public tableImport: BelongsTo<typeof TableImportClient>
+
+  @manyToMany(() => TableExportClient, {
+    pivotTable: 'table_export_clients_has_export_rows',
+    pivotForeignKey: 'row_id',
+    pivotRelatedForeignKey: 'table_export_id',
+  })
+  public tableExports: ManyToMany<typeof TableExportClient>
 }
