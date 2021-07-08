@@ -76,6 +76,14 @@ export default class TableExportClient extends BaseModel {
     return tableExports.gDriveAuth.getSpreadsheet(this.gDriveFileId)
   }
 
+  public async getWorksheet(index = 0) {
+    return this.getSpreadsheet().then((spreadsheet) => {
+      return spreadsheet.loadInfo().then(() => {
+        return spreadsheet.sheetsByIndex[index]
+      })
+    })
+  }
+
   public async toGoogleSpreadsheet() {
     const tableExportsGoogleSheets = new TableExportsGoogleSheets(this)
     const doc = await tableExportsGoogleSheets.run()

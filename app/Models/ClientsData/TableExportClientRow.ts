@@ -82,4 +82,17 @@ export default class TableExportClientRow extends BaseModel {
     pivotRelatedForeignKey: 'table_export_id',
   })
   public tableExports: ManyToMany<typeof TableExportClient>
+
+  public async getTableExports(id: number) {
+    const tableExportRow: TableExportClientRow = this
+    await tableExportRow.load('tableExports', (query) => {
+      query.where('id', id)
+    })
+
+    if (tableExportRow.tableExports.length <= 0) {
+      throw new Error(`[TABLE_EXPORTS_NOT_FOUND] Table Exports with ID [${id}] does not exists!`)
+    }
+
+    return tableExportRow.tableExports[0]
+  }
 }

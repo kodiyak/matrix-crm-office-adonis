@@ -9,32 +9,35 @@ export class TableExportsGoogleSheets {
   private fields: string[] = []
 
   public leftRightColumns = [
-    'cpf',
+    'beneficio',
     'nome',
-    'cep',
+    'cpf',
     'naturalidade',
-    'uf',
+    'genero',
+    'estadoCivil',
+    'tipoBeneficio',
+    'valorBeneficio',
+    'margemLivre',
+    'tipoDoc',
+    'rg',
+    'dataEmissaoRg',
+    'orgaoEmissor',
+    'dataNascimento',
+    'nomePai',
+    'nomeMae',
+    'telefone',
+    'celular',
+    'logradouro',
+    'numeroEndereco',
     'cidade',
     'bairro',
-    'logradouro',
-    'genero',
+    'uf',
+    'cep',
     'banco',
     'agencia',
-    'celular',
-    'telefone',
-    'nomeMae',
-    'nomePai',
-    'estadoCivil',
-    'margemLivre',
-    'orgaoEmissor',
     'contaBancaria',
-    'tipoBeneficio',
     'tipoPagamento',
     'ufMantenedora',
-    'dataNascimento',
-    'numeroEndereco',
-    'valorBeneficio',
-    'beneficio',
     'brSafe',
   ]
 
@@ -49,9 +52,9 @@ export class TableExportsGoogleSheets {
     }
 
     await this.tableExports.load('gDriveAuth')
-    if (this.tableExports.gDriveFileId) {
-      return this.tableExports.gDriveAuth.getSpreadsheet(this.tableExports.gDriveFileId)
-    }
+    // if (this.tableExports.gDriveFileId) {
+    //   return this.tableExports.gDriveAuth.getSpreadsheet(this.tableExports.gDriveFileId)
+    // }
 
     this.doc = await this.newSpreadsheet()
     this.fields = this.getFields()
@@ -87,7 +90,7 @@ export class TableExportsGoogleSheets {
       title: 'Robô INSS',
       gridProperties: {
         frozenRowCount: 1,
-        frozenColumnCount: 2,
+        frozenColumnCount: 3,
         rowCount: this.tableExports.rows.length,
         columnCount: this.fields.length,
       },
@@ -96,7 +99,14 @@ export class TableExportsGoogleSheets {
   }
 
   private getFields() {
-    const fields = Object.keys(this.tableExports.rows[0].dataExport)
+    const fields: string[] = []
+    for (const row of this.tableExports.rows) {
+      for (const field of Object.keys(row.dataExport)) {
+        if (!fields.includes(field)) {
+          fields.push(field)
+        }
+      }
+    }
     return this.orderColumns(fields)
   }
 

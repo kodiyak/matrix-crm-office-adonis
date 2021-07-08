@@ -42,16 +42,26 @@ Route.post('/api/exports/:id/spreadsheets', 'ClientsData/ExportsController.syncG
 Route.get('/api/exports/rows', 'ClientsData/ExportsController.getRows')
 Route.put('/api/exports/rows', 'ClientsData/ExportsController.updateRows')
 
+// Sync Spreadsheets
+Route.post(
+  '/api/exports/:tableExportId/spreadsheets/rows',
+  'ClientsData/Rows/TableExportRowsController.syncAllRowsExcel'
+)
+Route.post(
+  '/api/exports/:id/spreadsheets/regenerate',
+  'ClientsData/ExportsController.syncAndRegenerateGoogleSheets'
+)
+Route.post(
+  '/api/exports/:tableExportId/rows/:id/sync',
+  'ClientsData/Rows/TableExportRowsController.syncRowExcel'
+)
+
 // Robot Status Table Row
 Route.post(
   '/api/exports/rows/:statusName/:id/:status',
   'ClientsData/Rows/TableExportRowsController.updateRowStatus'
 )
 Route.post('/api/exports/rows/logs', 'ClientsData/Rows/TableExportRowsController.createLog')
-Route.post(
-  '/api/exports/:tableExportId/rows/:id/sync',
-  'ClientsData/Rows/TableExportRowsController.syncRowExcel'
-)
 
 Route.get('/api/clients/:id', 'Api/ClientsController.show')
 Route.get('/api/clients/:id/entries', 'Api/ClientsController.showEntries')

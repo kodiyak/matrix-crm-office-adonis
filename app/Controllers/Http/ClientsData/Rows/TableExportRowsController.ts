@@ -1,47 +1,39 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import TableExportClient from 'App/Models/ClientsData/TableExportClient'
 import TableExportClientRow from 'App/Models/ClientsData/TableExportClientRow'
 import { SupabaseClient } from 'App/Services/Clients/SupabaseClient'
+import { ImportGoogleSheetRow } from 'App/Services/ClientsData/ImportGoogleSheets/ImportGoogleSheetRow'
 
 export default class TableExportRowsController {
   public async syncRowExcel(ctx: HttpContextContract) {
     const { tableExportId, id } = ctx.params
     const tableExportRow = await TableExportClientRow.findOrFail(id)
-
-    await tableExportRow.load('tableExports', (query) => {
-      query.where('id', tableExportId)
-    })
-
-    if (tableExportRow.tableExports.length <= 0) {
-      throw new Error(
-        `[TABLE_EXPORTS_NOT_FOUND] Table Exports with ID [${tableExportId}] does not exists!`
-      )
-    }
-
-    const [tableExports] = tableExportRow.tableExports
+    const tableExports = await tableExportRow.getTableExports(Number(tableExportId))
     await tableExports.load('rows')
+    const sheet = await tableExports.getWorksheet(0)
+    const rows = await sheet.getRows()
 
-    const index = tableExports.rows.findIndex((row) => row.id === Number(id))
-    const sheet = await tableExports.getSpreadsheet().then((spreadsheet) => {
-      return spreadsheet.loadInfo().then(() => {
-        return spreadsheet.sheetsByIndex[0]
-      })
-    })
-    const [row] = await sheet.getRows({
-      limit: 1,
-      offset: index,
-    })
-
-    for (const keyRow in row) {
-      if (!keyRow.startsWith('_')) {
-        tableExportRow.dataExport[keyRow] = row[keyRow]
-      }
-    }
-
-    await tableExportRow.save()
+    const importGoogleSheetRow = new ImportGoogleSheetRow(tableExportRow, tableExports, rows)
+    await importGoogleSheetRow.run()
 
     return tableExportRow
 
     // return { index, tableExportRow }
+  }
+
+  public async syncAllRowsExcel(ctx: HttpContextContract) {
+    const { tableExportId } = ctx.params
+    const tableExports = await TableExportClient.findOrFail(tableExportId)
+    await tableExports.load('rows')
+    const sheet = await tableExports.getWorksheet(0)
+    const rows = await sheet.getRows()
+
+    for (const tableExportRow of tableExports.rows) {
+      const importGoogleSheetRow = new ImportGoogleSheetRow(tableExportRow, tableExports, rows)
+      await importGoogleSheetRow.run()
+    }
+
+    return tableExports
   }
 
   public async updateRowStatus(ctx: HttpContextContract) {
