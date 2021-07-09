@@ -12,6 +12,7 @@ import BankInfo from '../BankInfo'
 import Client from '../Client'
 import TableImportClient from './TableImportClient'
 import TableExportClient from './TableExportClient'
+import { ImportGoogleSheetRow } from 'App/Services/ClientsData/ImportGoogleSheets/ImportGoogleSheetRow'
 
 export default class TableExportClientRow extends BaseModel {
   @column({ isPrimary: true })
@@ -94,5 +95,16 @@ export default class TableExportClientRow extends BaseModel {
     }
 
     return tableExportRow.tableExports[0]
+  }
+
+  public async syncRowGoogleWorksheet(tableExportId: number, index = 0) {
+    const tableExportRow: TableExportClientRow = this
+    const tableExports = await tableExportRow.getTableExports(tableExportId)
+    await tableExports.load('rows')
+    const sheet = await tableExports.getWorksheet(index)
+    const rows = await sheet.getRows()
+
+    const importGoogleSheetRow = new ImportGoogleSheetRow(tableExportRow, tableExports, rows)
+    await importGoogleSheetRow.run()
   }
 }

@@ -12,6 +12,7 @@ import User from '../User'
 import TableExportClientRow from './TableExportClientRow'
 import GDriveAuth from '../GDriveAuth'
 import { TableExportsGoogleSheets } from 'App/Services/ClientsData/Exports/TableExportsGoogleSheets'
+import { ImportGoogleSheetRow } from 'App/Services/ClientsData/ImportGoogleSheets/ImportGoogleSheetRow'
 
 export default class TableExportClient extends BaseModel {
   @column({ isPrimary: true })
@@ -89,5 +90,17 @@ export default class TableExportClient extends BaseModel {
     const doc = await tableExportsGoogleSheets.run()
     this.gDriveFileId = doc.spreadsheetId
     await this.save()
+  }
+
+  public async syncAllRowsGoogleWorksheet(index = 0) {
+    const tableExports: TableExportClient = this
+    await tableExports.load('rows')
+    const sheet = await tableExports.getWorksheet(index)
+    const rows = await sheet.getRows()
+
+    for (const tableExportRow of tableExports.rows) {
+      const importGoogleSheetRow = new ImportGoogleSheetRow(tableExportRow, tableExports, rows)
+      await importGoogleSheetRow.run()
+    }
   }
 }
