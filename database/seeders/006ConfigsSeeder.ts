@@ -1,7 +1,7 @@
 import BaseSeeder from '@ioc:Adonis/Lucid/Seeder'
-import System from 'App/Models/System'
-import User from 'App/Models/User'
-import { UserConfigContract } from 'Contracts/config'
+// import System from 'App/Models/System'
+// import User from 'App/Models/User'
+// import { UserConfigContract } from 'Contracts/config'
 
 export default class ConfigsSeederSeeder extends BaseSeeder {
   public async run() {
