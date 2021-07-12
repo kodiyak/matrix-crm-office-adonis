@@ -1,10 +1,13 @@
-import { BaseModel } from '@ioc:Adonis/Lucid/Orm'
+import { LucidModel, LucidRow, ModelQueryBuilderContract } from '@ioc:Adonis/Lucid/Orm'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { QueryStringBuilder } from 'App/Services/Helpers/QueryStringBuilder/QueryStringBuilder'
 
 class QueryBuilderController {
-  public async run({ request }: HttpContextContract, model: typeof BaseModel) {
-    const builder = QueryStringBuilder.build(request.all(), model.query())
+  public async run(
+    { request }: HttpContextContract,
+    query: ModelQueryBuilderContract<LucidModel, LucidRow>
+  ) {
+    const builder = QueryStringBuilder.build(request.all(), query)
     try {
       return builder.exec()
     } catch (e) {

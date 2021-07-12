@@ -8,7 +8,7 @@ import * as uuid from 'uuid'
 
 export default class UsersController {
   public async index(ctx: HttpContextContract) {
-    return QueryBuilderController.run(ctx, User)
+    return QueryBuilderController.run(ctx, User.query())
   }
 
   public async create({ request }: HttpContextContract) {

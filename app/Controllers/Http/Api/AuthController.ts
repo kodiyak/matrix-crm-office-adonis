@@ -16,8 +16,12 @@ export default class AuthController {
     }
   }
 
-  public async boot({ auth }: HttpContextContract) {
+  public async boot({ auth, response }: HttpContextContract) {
     const { user } = auth
+    if (!user) {
+      return response.notFound()
+    }
+    await user.load('system')
     const counters = await ModelsCounter.run()
 
     return {

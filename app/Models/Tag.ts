@@ -14,6 +14,7 @@ import StrHelper from 'App/Services/Helpers/StrHelper'
 import Client from './Client'
 import TableExportClient from './ClientsData/TableExportClient'
 import TableImportClient from './ClientsData/TableImportClient'
+import System from './System'
 
 export default class Tag extends BaseModel {
   @column({ isPrimary: true })
@@ -78,4 +79,10 @@ export default class Tag extends BaseModel {
     foreignKey: 'ownerId',
   })
   public owner: BelongsTo<typeof User>
+
+  @column()
+  public systemId: number
+
+  @belongsTo(() => System)
+  public system: BelongsTo<typeof System>
 }

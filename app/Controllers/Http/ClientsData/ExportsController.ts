@@ -7,11 +7,11 @@ import { ImportGoogleSheetRow } from 'App/Services/ClientsData/ImportGoogleSheet
 
 export default class ExportsController {
   public async index(ctx: HttpContextContract) {
-    return QueryBuilderController.run(ctx, TableExportClient)
+    return QueryBuilderController.run(ctx, TableExportClient.query())
   }
 
   public async getRows(ctx: HttpContextContract) {
-    return QueryBuilderController.run(ctx, TableExportClientRow)
+    return QueryBuilderController.run(ctx, TableExportClientRow.query())
   }
 
   public async updateRows(ctx: HttpContextContract) {

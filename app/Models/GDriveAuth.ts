@@ -1,8 +1,9 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import GDriveClient from 'App/Services/Clients/GDriveClient'
 import { sheets_v4 } from 'googleapis'
 import { GoogleSpreadsheet } from 'google-spreadsheet'
+import System from './System'
 
 type FoldersNames = 'backup' | 'spreadsheet'
 
@@ -91,4 +92,10 @@ export default class GDriveAuth extends BaseModel {
 
     return doc
   }
+
+  @column()
+  public systemId: number
+
+  @belongsTo(() => System)
+  public system: BelongsTo<typeof System>
 }

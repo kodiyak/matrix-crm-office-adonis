@@ -11,6 +11,7 @@ import {
 import PersonInfo from './PersonInfo'
 import User from './User'
 import BankInfo from './BankInfo'
+import System from './System'
 
 export default class Client extends BaseModel {
   @column({ isPrimary: true })
@@ -63,4 +64,10 @@ export default class Client extends BaseModel {
     pivotRelatedForeignKey: 'tag_id',
   })
   public clients: ManyToMany<typeof Client>
+
+  @column()
+  public systemId: number
+
+  @belongsTo(() => System)
+  public system: BelongsTo<typeof System>
 }

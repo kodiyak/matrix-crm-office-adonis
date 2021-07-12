@@ -10,11 +10,16 @@ import {
   HasMany,
   manyToMany,
   ManyToMany,
+  belongsTo,
+  BelongsTo,
 } from '@ioc:Adonis/Lucid/Orm'
 
 import PersonInfo from './PersonInfo'
 import Address from './Address'
 import Tag from './Tag'
+import AppConfig from './AppConfig'
+import { UserAddConfig } from 'Contracts/config'
+import System from './System'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -75,4 +80,19 @@ export default class User extends BaseModel {
     pivotRelatedForeignKey: 'tag_id',
   })
   public tags: ManyToMany<typeof Tag>
+
+  @column()
+  public systemId: number
+
+  @belongsTo(() => System)
+  public system: BelongsTo<typeof System>
+
+  public setConfig: UserAddConfig = async (name, value) => {
+    const config = await AppConfig.firstOrNew({ name: name, userId: this.id })
+    config.merge(config.getUserTypesByName())
+    config.value = value
+    console.log(config.toJSON())
+    // for (const configUser of configs) {
+    // }
+  }
 }

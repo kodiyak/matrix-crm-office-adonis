@@ -4,7 +4,7 @@ import QueryBuilderController from '../Helpers/QueryBuilderController'
 
 export default class TagsController {
   public async index(ctx: HttpContextContract) {
-    return QueryBuilderController.run(ctx, Tag)
+    return QueryBuilderController.run(ctx, Tag.query())
   }
 
   public async create({ request, auth }: HttpContextContract) {
