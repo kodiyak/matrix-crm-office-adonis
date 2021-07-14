@@ -15,6 +15,9 @@ export default class System extends BaseModel {
   public corporateName: string
 
   @column()
+  public role: 'master' | 'client'
+
+  @column()
   public avatar: string
 
   @column()
