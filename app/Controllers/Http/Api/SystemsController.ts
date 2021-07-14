@@ -5,7 +5,6 @@ import QueryBuilderController from '../Helpers/QueryBuilderController'
 import Application from '@ioc:Adonis/Core/Application'
 import * as uuid from 'uuid'
 import StrHelper from 'App/Services/Helpers/StrHelper'
-import User from 'App/Models/User'
 
 export default class SystemsController {
   public async index(ctx: HttpContextContract) {
