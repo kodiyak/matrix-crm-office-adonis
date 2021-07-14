@@ -20,6 +20,8 @@ Route.post('/api/personsinfos', 'Api/PersonsInfosController.create')
 
 // Systems
 Route.get('/api/systems', 'Api/SystemsController.index')
+Route.put('/api/systems/:id', 'Api/SystemsController.update')
+Route.post('/api/systems/:id/:field', 'Api/SystemsController.uploadFile')
 
 // Imports
 Route.post('/api/imports/:type', 'ClientsData/ImportsController.upload')

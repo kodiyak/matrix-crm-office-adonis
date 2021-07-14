@@ -8,12 +8,13 @@ import User from 'App/Models/User'
 export default class SystemSeederSeeder extends BaseSeeder {
   public async run() {
     // Write your database queries inside the run method
-    const system = await System.firstOrCreate(
+    const system = await System.updateOrCreate(
       {
         slug: 'gs-matrix',
       },
       {
         corporateName: 'GS Matrix',
+        role: 'master',
       }
     )
 

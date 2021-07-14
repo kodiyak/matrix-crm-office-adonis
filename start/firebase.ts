@@ -7,8 +7,3 @@
 | boot.
 |
 */
-
-import { firebaseConfig } from 'Config/firebase'
-import firebase from 'firebase'
-
-firebase.initializeApp(firebaseConfig)

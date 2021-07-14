@@ -4,11 +4,6 @@ export default class Systems extends BaseSchema {
   protected tableName = 'systems'
 
   public async up() {
-    // this.schema.dropTableIfExists(this.tableName)
-    // this.schema.table('g_drive_auths', (table) => {
-    //   table.dropForeign('system_id')
-    //   table.dropColumn('system_id')
-    // })
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.string('slug').notNullable()
