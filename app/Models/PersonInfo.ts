@@ -76,12 +76,26 @@ export default class PersonInfo extends BaseModel {
   public naturalness: string
 
   @column({
+    serialize: (v) => {
+      try {
+        return JSON.parse(v) || v
+      } catch (error) {
+        return []
+      }
+    },
     consume: (v) => JSON.parse(v) || v,
     prepare: (v) => (v ? JSON.stringify(v) : undefined),
   })
   public phones: string[]
 
   @column({
+    serialize: (v) => {
+      try {
+        return JSON.parse(v) || v
+      } catch (error) {
+        return []
+      }
+    },
     consume: (v) => (v ? JSON.parse(v) : undefined),
     prepare: (v) => (v ? JSON.stringify(v) : undefined),
   })
