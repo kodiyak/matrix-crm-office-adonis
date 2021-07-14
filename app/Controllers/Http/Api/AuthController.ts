@@ -22,7 +22,7 @@ export default class AuthController {
       return response.notFound()
     }
     await user.load('system')
-    const counters = await ModelsCounter.run()
+    const counters = await ModelsCounter.run(user.system)
 
     return {
       counters,

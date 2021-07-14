@@ -4,7 +4,15 @@ import QueryBuilderController from '../Helpers/QueryBuilderController'
 
 export default class ClientsController {
   public async index(ctx: HttpContextContract) {
-    return QueryBuilderController.run(ctx, Client.query())
+    const { auth } = ctx
+    if (!auth.user) return
+    await auth.user.load('system')
+
+    const query =
+      auth.user.system.role === 'client'
+        ? Client.query().where('system_id', auth.user.systemId)
+        : Client.query()
+    return QueryBuilderController.run(ctx, query)
   }
 
   public async show({ params }: HttpContextContract) {

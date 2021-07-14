@@ -9,6 +9,8 @@ import Address from 'App/Models/Address'
 import Bank from '../../../Models/Helper/Bank'
 import BankInfo from '../../../Models/BankInfo'
 import Tag from '../../../Models/Tag'
+import System from 'App/Models/System'
+import { BaseModel } from '@ioc:Adonis/Lucid/Orm'
 
 type ModelsCounters = 'users' | 'clients' | 'docs' | 'personInfos' | 'banks' | 'bankInfos' | 'tags'
 
@@ -18,16 +20,18 @@ interface ModelsCounterReturn {
 }
 
 class ModelsCounter implements Service.BaseHandler<any, ModelsCounterReturn> {
-  public async run() {
+  public async run(system?: System) {
+    const count = (model: typeof BaseModel) => DBHelper.count(model, system)
+
     return {
-      users: await DBHelper.count(User),
-      clients: await DBHelper.count(Client),
+      users: await count(User),
+      clients: await count(Client),
       docs: await DBHelper.count(DocInfo),
       personInfos: await DBHelper.count(PersonInfo),
       addresses: await DBHelper.count(Address),
       banks: await DBHelper.count(Bank),
       bankInfos: await DBHelper.count(BankInfo),
-      tags: await DBHelper.count(Tag),
+      tags: await count(Tag),
     }
   }
 }

@@ -8,7 +8,10 @@ import * as uuid from 'uuid'
 
 export default class UsersController {
   public async index(ctx: HttpContextContract) {
-    return QueryBuilderController.run(ctx, User.query())
+    const { auth } = ctx
+    if (!auth.user) return
+    const query = User.query().where('system_id', auth.user.systemId)
+    return QueryBuilderController.run(ctx, query)
   }
 
   public async create({ request }: HttpContextContract) {
