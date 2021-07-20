@@ -3,6 +3,7 @@ import PartnerInputData from 'App/Models/Partner/PartnerInputDatum'
 import PersonInfo from 'App/Models/PersonInfo'
 import * as uuid from 'uuid'
 import Application from '@ioc:Adonis/Core/Application'
+import StrHelper from 'App/Services/Helpers/StrHelper'
 
 export default class PartnerInputDataController {
   public async create(ctx: HttpContextContract) {
@@ -20,8 +21,8 @@ export default class PartnerInputDataController {
 
     const personInfo = await PersonInfo.create({
       firstName: data.first_name,
-      celPhones: data.celular ? [data.celular] : [],
-      phones: data.telefone ? [data.telefone] : [],
+      celPhones: data.celular ? [StrHelper.digits(data.celular)] : [],
+      phones: data.telefone ? [StrHelper.digits(data.telefone)] : [],
       cpf: data.cpf,
       rg: data.rg,
       rgIssueDate: data.data_emissao,
@@ -29,6 +30,8 @@ export default class PartnerInputDataController {
       fathersFullname: data.nome_pai,
       mothersFullname: data.nome_mae,
       rgOrgaoEmissor: data.orgao_emissor,
+      birthdayDate: data.data_nascimento,
+      genre: data.genero,
     })
 
     if (

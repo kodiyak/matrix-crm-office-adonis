@@ -78,7 +78,10 @@ export default class PersonInfo extends BaseModel {
   @column({
     serialize: (v) => {
       try {
-        return JSON.parse(v) || v
+        const nextValue = JSON.parse(v) || v
+
+        if (Array.isArray(nextValue)) return nextValue
+        return [nextValue]
       } catch (error) {
         return []
       }
@@ -91,7 +94,10 @@ export default class PersonInfo extends BaseModel {
   @column({
     serialize: (v) => {
       try {
-        return JSON.parse(v) || v
+        const nextValue = JSON.parse(v) || v
+
+        if (Array.isArray(nextValue)) return nextValue
+        return [nextValue]
       } catch (error) {
         return []
       }
