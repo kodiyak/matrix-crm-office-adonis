@@ -2,7 +2,6 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import PartnerInputData from 'App/Models/Partner/PartnerInputDatum'
 import PersonInfo from 'App/Models/PersonInfo'
 import * as uuid from 'uuid'
-import Application from '@ioc:Adonis/Core/Application'
 import StrHelper from 'App/Services/Helpers/StrHelper'
 
 export default class PartnerInputDataController {
@@ -79,22 +78,7 @@ export default class PartnerInputDataController {
     if (ctx.request.files('files')) {
       const files = ctx.request.files('files')
       for (const file of files) {
-        const nextUuid = uuid.v4()
-        const name = `${nextUuid}.${file.extname}`
-        const path = `persons/${personInfo.id}/${name}`
-
-        await file.move(Application.tmpPath('persons', `${personInfo.id}`), {
-          name,
-        })
-
-        await folder.related('files').create({
-          mimeType: `${file.type}/${file.subtype}`,
-          name,
-          uuid: nextUuid,
-          size: file.size,
-          path,
-          userId: auth.user.id,
-        })
+        await personInfo.addFile(auth.user, file, folder)
       }
     }
 

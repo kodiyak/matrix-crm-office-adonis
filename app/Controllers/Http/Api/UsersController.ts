@@ -9,9 +9,14 @@ import * as uuid from 'uuid'
 export default class UsersController {
   public async index(ctx: HttpContextContract) {
     const { auth } = ctx
-    if (!auth.user) return
-    const query = User.query().where('system_id', auth.user.systemId)
-    return QueryBuilderController.run(ctx, query)
+    if (!auth.user) return []
+    await auth.user.load('system')
+    if (auth.user.system.role === 'master') {
+      return QueryBuilderController.run(ctx, User.query())
+    } else {
+      const query = User.query().where('system_id', auth.user.systemId)
+      return QueryBuilderController.run(ctx, query)
+    }
   }
 
   public async create({ request }: HttpContextContract) {

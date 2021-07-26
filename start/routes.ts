@@ -64,6 +64,7 @@ Route.group(() => {
   Route.get('/api/clients/:id', 'Api/ClientsController.show')
   Route.get('/api/clients/:id/entries', 'Api/ClientsController.showEntries')
   Route.get('/api/clients', 'Api/ClientsController.index')
+  Route.post('/api/clients/:id/files', 'Api/ClientsController.uploadFiles')
 
   // Helpers
   Route.post('/api/helpers/address/resolve', 'Helpers/AddressesController.resolve')

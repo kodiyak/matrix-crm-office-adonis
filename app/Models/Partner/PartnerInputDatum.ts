@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import User from '../User'
+import Client from '../Client'
 
 export default class PartnerInputData extends BaseModel {
   public static table = 'partner_input_datas'
@@ -27,4 +29,10 @@ export default class PartnerInputData extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @belongsTo(() => User)
+  public user: BelongsTo<typeof User>
+
+  @belongsTo(() => Client)
+  public client: BelongsTo<typeof Client>
 }

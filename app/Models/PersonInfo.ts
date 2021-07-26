@@ -13,6 +13,10 @@ import Address from './Address'
 import Client from './Client'
 import BankInfo from './BankInfo'
 import FolderItem from './FolderItem'
+import { MultipartFileContract } from '@ioc:Adonis/Core/BodyParser'
+import Application from '@ioc:Adonis/Core/Application'
+import * as uuid from 'uuid'
+import User from './User'
 
 export default class PersonInfo extends BaseModel {
   @column({ isPrimary: true })
@@ -137,4 +141,31 @@ export default class PersonInfo extends BaseModel {
     pivotRelatedForeignKey: 'folder_item_id',
   })
   public folders: ManyToMany<typeof FolderItem>
+
+  public async addFile(user: User, file: MultipartFileContract, folder?: FolderItem) {
+    const personInfo: PersonInfo = this
+
+    if (!folder) {
+      await personInfo.load('folders', (query) => {
+        query.limit(1)
+      })
+      folder = personInfo.folders[0]
+    }
+
+    const nextUuid = uuid.v4()
+    const name = `${nextUuid}.${file.extname}`
+    const path = `persons/${personInfo.id}/${name}`
+    await file.move(Application.tmpPath('persons', `${personInfo.id}`), {
+      name,
+    })
+
+    await folder.related('files').create({
+      mimeType: `${file.type}/${file.subtype}`,
+      name,
+      uuid: nextUuid,
+      size: file.size,
+      path,
+      userId: user.id,
+    })
+  }
 }
