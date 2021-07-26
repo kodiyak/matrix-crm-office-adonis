@@ -5,6 +5,8 @@ import {
   belongsTo,
   column,
   computed,
+  HasMany,
+  hasMany,
   ManyToMany,
   manyToMany,
 } from '@ioc:Adonis/Lucid/Orm'
@@ -12,6 +14,7 @@ import PersonInfo from './PersonInfo'
 import User from './User'
 import BankInfo from './BankInfo'
 import System from './System'
+import PartnerInputData from './Partner/PartnerInputDatum'
 
 export default class Client extends BaseModel {
   @column({ isPrimary: true })
@@ -70,4 +73,7 @@ export default class Client extends BaseModel {
 
   @belongsTo(() => System)
   public system: BelongsTo<typeof System>
+
+  @hasMany(() => PartnerInputData)
+  public partnerInputDatas: HasMany<typeof PartnerInputData>
 }

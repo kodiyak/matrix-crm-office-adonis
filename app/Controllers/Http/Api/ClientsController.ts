@@ -24,4 +24,16 @@ export default class ClientsController {
 
     return client
   }
+
+  public async uploadFiles({ params, request, auth }: HttpContextContract) {
+    if (!auth.user) return
+    const client = await Client.findOrFail(params.id)
+    await client.load('personInfo')
+    if (request.files('files')) {
+      const files = request.files('files')
+      for (const file of files) {
+        await client.personInfo.addFile(auth.user, file)
+      }
+    }
+  }
 }
